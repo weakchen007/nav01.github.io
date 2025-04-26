@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>图片导航</title>
+    <style>
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .item {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .item:hover {
+            transform: scale(1.05);
+        }
+        .item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery" id="gallery"></div>
+
+    <script>
+        // 从GitHub加载数据
+        fetch('https://raw.githubusercontent.com/你的用户名/你的仓库名/main/data.json')
+            .then(response => response.json())
+            .then(data => {
+                const gallery = document.getElementById('gallery');
+                data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'item';
+                    div.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}">
+                    `;
+                    div.onclick = () => window.open(item.url, '_blank');
+                    gallery.appendChild(div);
+                });
+            });
+    </script>
+</body>
+</html>
